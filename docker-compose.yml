@@ -1,0 +1,32 @@
+version: '3'
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: 'graphql_db'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'your_password_here'
+    ports:
+      - '5432:5432'
+
+  prisma:
+    image: prismagraphql/prisma:1.35-beta
+    restart: always
+    ports:
+      - '4466:4466'
+    environment:
+      PRISMA_CONFIG: |
+        port: 4466
+        databases:
+          default:
+            connector: postgres
+            host: postgres
+            port: 5432
+            user: postgres
+            password: your_password_here
+            migrations: true
+            rawAccess: true
+            active: true
+    volumes:
+      - ./prisma:/app/prisma
+    command: prisma migrate deploy

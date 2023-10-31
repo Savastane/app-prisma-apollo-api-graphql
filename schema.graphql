@@ -1,0 +1,24 @@
+type Usuario {
+  id: ID!
+  nome: String!
+  email: String!
+  tarefas: [Tarefa!]!
+}
+
+type Tarefa {
+  id: ID!
+  titulo: String!
+  descricao: String
+  concluida: Boolean!
+  usuario: Usuario!
+}
+
+type Query {
+  usuarios: [Usuario!]!
+  tarefas: [Tarefa!]!
+}
+
+type Mutation {
+  criarUsuario(nome: String!, email: String!): Usuario!
+  criarTarefa(titulo: String!, descricao: String, concluida: Boolean!, usuarioId: ID!): Tarefa!
+}
